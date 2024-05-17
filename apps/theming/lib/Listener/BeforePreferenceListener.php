@@ -34,6 +34,12 @@ use OCP\EventDispatcher\IEventListener;
 
 /** @template-implements IEventListener<BeforePreferenceDeletedEvent|BeforePreferenceSetEvent> */
 class BeforePreferenceListener implements IEventListener {
+
+	/**
+	 * @var string[]
+	 */
+	private const ALLOWED_KEYS = ['force_enable_blur_filter', 'shortcuts_disabled', 'primary_color'];
+
 	public function __construct(
 		private IAppManager $appManager,
 	) {
