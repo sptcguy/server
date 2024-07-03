@@ -84,6 +84,7 @@
     "Organizer:" : "Eagraí:",
     "Attendees:" : "Lucht freastail:",
     "Title:" : "Teideal:",
+    "Date and time:" : "Dáta agus am:",
     "Location:" : "Suíomh:",
     "Link:" : "Nasc:",
     "Accept" : "Glac",
@@ -130,8 +131,6 @@
     "Encryption not ready: %1$s" : "Níl an criptiúchán réidh: %1$s",
     "Failed to open file: %1$s" : "Níorbh fhéidir an comhad a oscailt: %1$s",
     "Failed to unlink: %1$s" : "Theip ar dhínascadh: %1$s",
-    "Invalid chunk name" : "Ainm smután neamhbhailí",
-    "Could not rename part file assembled from chunks" : "Níorbh fhéidir páirtchomhad a athainmniú as smután",
     "Failed to write file contents: %1$s" : "Níorbh fhéidir inneachar an chomhaid a scríobh: %1$s",
     "File not found: %1$s" : "Comhad gan aimsiú: %1$s",
     "System is in maintenance mode." : "Tá an córas i mód cothabhála.",
@@ -157,6 +156,10 @@
     "WebDAV" : "WebDAV",
     "First day" : "Céad lá",
     "Last day (inclusive)" : "Lá deiridh (san áireamh)",
+    "Out of office replacement (optional)" : "Athsholáthar as oifig (roghnach)",
+    "Name of the replacement" : "Ainm an athsholáthair",
+    "No results." : "Gan torthaí.",
+    "Start typing." : "Tosaigh ag clóscríobh.",
     "Short absence status" : "Stádas asláithreachta gearr",
     "Long absence Message" : "Neamhláithreacht fada Teachtaireacht",
     "Save" : "Sábháil",
@@ -207,6 +210,8 @@
     "Your attendance was updated successfully." : "D'éirigh le do thinreamh a nuashonrú.",
     "To-dos" : "Rudaí le déanamh",
     "Time:" : "Am:",
+    "Invalid chunk name" : "Ainm smután neamhbhailí",
+    "Could not rename part file assembled from chunks" : "Níorbh fhéidir páirtchomhad a athainmniú as smután",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Má dhéanann tú d’uaireanta oibre a chumrú, feicfidh úsáideoirí eile nuair a bhíonn tú as oifig nuair a chuirfidh siad cruinniú in áirithe."
 },"pluralForm" :"nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);"
 }

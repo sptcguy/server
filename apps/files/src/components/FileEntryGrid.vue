@@ -17,7 +17,7 @@
 		@dragend="onDragEnd"
 		@drop="onDrop">
 		<!-- Failed indicator -->
-		<span v-if="source.attributes.failed" class="files-list__row--failed" />
+		<span v-if="isFailedSource" class="files-list__row--failed" />
 
 		<!-- Checkbox -->
 		<FileEntryCheckbox :fileid="fileid"
@@ -32,6 +32,7 @@
 				:dragover="dragover"
 				:grid-mode="true"
 				:source="source"
+				@auxclick.native="execDefaultAction"
 				@click.native="execDefaultAction" />
 
 			<FileEntryName ref="name"
@@ -41,7 +42,8 @@
 				:grid-mode="true"
 				:nodes="nodes"
 				:source="source"
-				@click="execDefaultAction" />
+				@auxclick.native="execDefaultAction"
+				@click.native="execDefaultAction" />
 		</td>
 
 		<!-- Actions -->
@@ -58,6 +60,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 
+import { useNavigation } from '../composables/useNavigation'
 import { useActionsMenuStore } from '../store/actionsmenu.ts'
 import { useDragAndDropStore } from '../store/dragging.ts'
 import { useFilesStore } from '../store/files.ts'
@@ -91,12 +94,16 @@ export default defineComponent({
 		const filesStore = useFilesStore()
 		const renamingStore = useRenamingStore()
 		const selectionStore = useSelectionStore()
+		const { currentView } = useNavigation()
+
 		return {
 			actionsMenuStore,
 			draggingStore,
 			filesStore,
 			renamingStore,
 			selectionStore,
+
+			currentView,
 		}
 	},
 

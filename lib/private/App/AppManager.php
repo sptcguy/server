@@ -319,7 +319,9 @@ class AppManager implements IAppManager {
 
 			if (!is_array($groupIds)) {
 				$jsonError = json_last_error();
-				$this->logger->warning('AppManger::checkAppForUser - can\'t decode group IDs: ' . print_r($enabled, true) . ' - json error code: ' . $jsonError);
+				$jsonErrorMsg = json_last_error_msg();
+				// this really should never happen (if it does, the admin should check the `enabled` key value via `occ config:list` because it's bogus for some reason)
+				$this->logger->warning('AppManager::checkAppForUser - can\'t decode group IDs listed in app\'s enabled config key: ' . print_r($enabled, true) . ' - JSON error (' . $jsonError . ') ' . $jsonErrorMsg);
 				return false;
 			}
 
@@ -345,7 +347,9 @@ class AppManager implements IAppManager {
 
 			if (!is_array($groupIds)) {
 				$jsonError = json_last_error();
-				$this->logger->warning('AppManger::checkAppForUser - can\'t decode group IDs: ' . print_r($enabled, true) . ' - json error code: ' . $jsonError);
+				$jsonErrorMsg = json_last_error_msg();
+				// this really should never happen (if it does, the admin should check the `enabled` key value via `occ config:list` because it's bogus for some reason)
+				$this->logger->warning('AppManager::checkAppForGroups - can\'t decode group IDs listed in app\'s enabled config key: ' . print_r($enabled, true) . ' - JSON error (' . $jsonError . ') ' . $jsonErrorMsg);
 				return false;
 			}
 
@@ -384,8 +388,8 @@ class AppManager implements IAppManager {
 		if ($appPath === false) {
 			return;
 		}
-		$eventLogger = \OC::$server->get(\OCP\Diagnostics\IEventLogger::class);
-		$eventLogger->start("bootstrap:load_app:$app", "Load $app");
+		$eventLogger = \OC::$server->get(IEventLogger::class);
+		$eventLogger->start("bootstrap:load_app:$app", "Load app: $app");
 
 		// in case someone calls loadApp() directly
 		\OC_App::registerAutoloading($app, $appPath);
@@ -396,8 +400,6 @@ class AppManager implements IAppManager {
 
 		$hasAppPhpFile = is_file($appPath . '/appinfo/app.php');
 
-		$eventLogger = \OC::$server->get(IEventLogger::class);
-		$eventLogger->start('bootstrap:load_app_' . $app, 'Load app: ' . $app);
 		if ($isBootable && $hasAppPhpFile) {
 			$this->logger->error('/appinfo/app.php is not loaded when \OCP\AppFramework\Bootstrap\IBootstrap on the application class is used. Migrate everything from app.php to the Application class.', [
 				'app' => $app,
