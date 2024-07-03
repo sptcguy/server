@@ -197,7 +197,7 @@ class IMipServiceTest extends TestCase {
 		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
 		// define expected output
 		$expected = [
-			'meeting_when' => $this->service->generateWhenStringSingular($eventReader),
+			'meeting_when' => $this->service->generateWhenString($eventReader),
 			'meeting_description' => '',
 			'meeting_title' => 'Testing Event',
 			'meeting_location' => '',
@@ -242,13 +242,13 @@ class IMipServiceTest extends TestCase {
 		$vCalendarOld->VEVENT[0]->SUMMARY->setValue('Testing Singleton Event');
 		// define expected output
 		$expected = [
-			'meeting_when' => $this->service->generateWhenStringSingular($eventReaderNew),
+			'meeting_when' => $this->service->generateWhenString($eventReaderNew),
 			'meeting_description' => '',
 			'meeting_title' => 'Testing Event',
 			'meeting_location' => '',
 			'meeting_url' => '',
 			'meeting_url_html' => '',
-			'meeting_when_html' => $this->service->generateWhenStringSingular($eventReaderNew),
+			'meeting_when_html' => $this->service->generateWhenString($eventReaderNew),
 			'meeting_title_html' => sprintf("<span style='text-decoration: line-through'>%s</span><br />%s", 'Testing Singleton Event', 'Testing Event'),
 			'meeting_description_html' => '',
 			'meeting_location_html' => ''
@@ -394,7 +394,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'In a day on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)',
-			$this->service->generateWhenStringSingular($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test entire day event in 1 day*/
@@ -404,7 +404,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'In a day on July 1, 2024 for the entire day',
-			$this->service->generateWhenStringSingular($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test patrial day event in 2 days*/
@@ -414,7 +414,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'In 2 days on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)',
-			$this->service->generateWhenStringSingular($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test entire day event in 2 days*/
@@ -424,7 +424,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'In 2 days on July 1, 2024 for the entire day',
-			$this->service->generateWhenStringSingular($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test patrial day event in 1 week*/
@@ -434,7 +434,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'In a week on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)',
-			$this->service->generateWhenStringSingular($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test entire day event in 1 week*/
@@ -444,7 +444,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'In a week on July 1, 2024 for the entire day',
-			$this->service->generateWhenStringSingular($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test patrial day event in 2 weeks*/
@@ -454,7 +454,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'In 2 weeks on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)',
-			$this->service->generateWhenStringSingular($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test entire day event in 2 weeks*/
@@ -464,7 +464,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'In 2 weeks on July 1, 2024 for the entire day',
-			$this->service->generateWhenStringSingular($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test patrial day event in 1 month*/
@@ -474,7 +474,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'In a month on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)',
-			$this->service->generateWhenStringSingular($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test entire day event in 1 month*/
@@ -484,7 +484,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'In a month on July 1, 2024 for the entire day',
-			$this->service->generateWhenStringSingular($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test patrial day event in 2 months*/
@@ -494,7 +494,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'In 2 months on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)',
-			$this->service->generateWhenStringSingular($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test entire day event in 2 months*/
@@ -504,7 +504,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'In 2 months on July 1, 2024 for the entire day',
-			$this->service->generateWhenStringSingular($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 		
 		/** test patrial day event in 1 year*/
@@ -514,7 +514,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'In a year on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)',
-			$this->service->generateWhenStringSingular($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test entire day event in 1 year*/
@@ -524,7 +524,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'In a year on July 1, 2024 for the entire day',
-			$this->service->generateWhenStringSingular($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test patrial day event in 2 years*/
@@ -534,7 +534,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'In 2 years on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)',
-			$this->service->generateWhenStringSingular($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test entire day event in 2 years*/
@@ -544,7 +544,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'In 2 years on July 1, 2024 for the entire day',
-			$this->service->generateWhenStringSingular($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 	}
@@ -581,7 +581,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'Every Day between 8:00 AM - 9:00 AM (America/Toronto)',
-			$this->service->generateWhenStringRecurring($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test partial day event with every day interval and conclusion*/
@@ -592,7 +592,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'Every Day between 8:00 AM - 9:00 AM (America/Toronto) until July 13, 2024',
-			$this->service->generateWhenStringRecurring($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test partial day event every 3rd day interval and no conclusion*/
@@ -603,7 +603,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'Every 3 Days between 8:00 AM - 9:00 AM (America/Toronto)',
-			$this->service->generateWhenStringRecurring($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test partial day event with every 3rd day interval and conclusion*/
@@ -614,7 +614,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'Every 3 Days between 8:00 AM - 9:00 AM (America/Toronto) until July 13, 2024',
-			$this->service->generateWhenStringRecurring($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test entire day event with every day interval and no conclusion*/
@@ -625,7 +625,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'Every Day for the entire day',
-			$this->service->generateWhenStringRecurring($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test entire day event with every day interval and conclusion*/
@@ -636,7 +636,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'Every Day for the entire day until July 13, 2024',
-			$this->service->generateWhenStringRecurring($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test entire day event with every 3rd day interval and no conclusion*/
@@ -647,7 +647,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'Every 3 Days for the entire day',
-			$this->service->generateWhenStringRecurring($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test entire day event with every 3rd day interval and conclusion*/
@@ -658,7 +658,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'Every 3 Days for the entire day until July 13, 2024',
-			$this->service->generateWhenStringRecurring($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 	}
@@ -698,7 +698,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'Every Week on Monday, Wednesday, Friday between 8:00 AM - 9:00 AM (America/Toronto)',
-			$this->service->generateWhenStringRecurring($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test partial day event with every week interval on Mon, Wed, Fri and conclusion*/
@@ -709,7 +709,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'Every Week on Monday, Wednesday, Friday between 8:00 AM - 9:00 AM (America/Toronto) until July 13, 2024',
-			$this->service->generateWhenStringRecurring($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test partial day event with every 2nd week interval on Mon, Wed, Fri and no conclusion*/
@@ -720,7 +720,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'Every 2 Weeks on Monday, Wednesday, Friday between 8:00 AM - 9:00 AM (America/Toronto)',
-			$this->service->generateWhenStringRecurring($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test partial day event with every 2nd week interval on Mon, Wed, Fri and conclusion*/
@@ -731,7 +731,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'Every 2 Weeks on Monday, Wednesday, Friday between 8:00 AM - 9:00 AM (America/Toronto) until July 13, 2024',
-			$this->service->generateWhenStringRecurring($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test entire day event with every week interval on Mon, Wed, Fri and no conclusion*/
@@ -742,7 +742,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'Every Week on Monday, Wednesday, Friday for the entire day',
-			$this->service->generateWhenStringRecurring($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test entire day event with every week interval on Mon, Wed, Fri and conclusion*/
@@ -753,7 +753,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'Every Week on Monday, Wednesday, Friday for the entire day until July 13, 2024',
-			$this->service->generateWhenStringRecurring($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test entire day event with every 2nd week interval on Mon, Wed, Fri and no conclusion*/
@@ -764,7 +764,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'Every 2 Weeks on Monday, Wednesday, Friday for the entire day',
-			$this->service->generateWhenStringRecurring($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test entire day event with every 2nd week interval on Mon, Wed, Fri and conclusion*/
@@ -775,7 +775,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'Every 2 Weeks on Monday, Wednesday, Friday for the entire day until July 13, 2024',
-			$this->service->generateWhenStringRecurring($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 	}
@@ -823,7 +823,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'Every Month on the 1, 8 between 8:00 AM - 9:00 AM (America/Toronto)',
-			$this->service->generateWhenStringRecurring($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test absolute partial day event with every Month interval on 1st, 8th and conclusion*/
@@ -834,7 +834,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'Every Month on the 1, 8 between 8:00 AM - 9:00 AM (America/Toronto) until December 31, 2024',
-			$this->service->generateWhenStringRecurring($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test absolute partial day event with every 2nd Month interval on 1st, 8th and no conclusion*/
@@ -845,7 +845,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'Every 2 Months on the 1, 8 between 8:00 AM - 9:00 AM (America/Toronto)',
-			$this->service->generateWhenStringRecurring($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test absolute partial day event with every 2nd Month interval on 1st, 8th and conclusion*/
@@ -856,7 +856,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'Every 2 Months on the 1, 8 between 8:00 AM - 9:00 AM (America/Toronto) until December 31, 2024',
-			$this->service->generateWhenStringRecurring($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test absolute entire day event with every Month interval on 1st, 8th and no conclusion*/
@@ -867,7 +867,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'Every Month on the 1, 8 for the entire day',
-			$this->service->generateWhenStringRecurring($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test absolute entire day event with every Month interval on 1st, 8th and conclusion*/
@@ -878,7 +878,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'Every Month on the 1, 8 for the entire day until December 31, 2024',
-			$this->service->generateWhenStringRecurring($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test absolute entire day event with every 2nd Month interval on 1st, 8th and no conclusion*/
@@ -889,7 +889,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'Every 2 Months on the 1, 8 for the entire day',
-			$this->service->generateWhenStringRecurring($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test absolute entire day event with every 2nd Month interval on 1st, 8th and conclusion*/
@@ -900,7 +900,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'Every 2 Months on the 1, 8 for the entire day until December 31, 2024',
-			$this->service->generateWhenStringRecurring($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test relative partial day event with every month interval on the 1st Saturday, Sunday and no conclusion*/
@@ -911,7 +911,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'Every Month on the First Sunday, Saturday between 8:00 AM - 9:00 AM (America/Toronto)',
-			$this->service->generateWhenStringRecurring($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test relative partial day event with every Month interval on the 1st Saturday, Sunday and conclusion*/
@@ -922,7 +922,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'Every Month on the First Sunday, Saturday between 8:00 AM - 9:00 AM (America/Toronto) until December 31, 2024',
-			$this->service->generateWhenStringRecurring($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test relative partial day event with every 2nd Month interval on the 1st Saturday, Sunday and no conclusion*/
@@ -933,7 +933,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'Every 2 Months on the First Sunday, Saturday between 8:00 AM - 9:00 AM (America/Toronto)',
-			$this->service->generateWhenStringRecurring($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test relative partial day event with every 2nd Month interval on the 1st Saturday, Sunday and conclusion*/
@@ -944,7 +944,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'Every 2 Months on the First Sunday, Saturday between 8:00 AM - 9:00 AM (America/Toronto) until December 31, 2024',
-			$this->service->generateWhenStringRecurring($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test relative entire day event with every Month interval on the 1st Saturday, Sunday and no conclusion*/
@@ -955,7 +955,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'Every Month on the First Sunday, Saturday for the entire day',
-			$this->service->generateWhenStringRecurring($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test relative entire day event with every Month interval on the 1st Saturday, Sunday and conclusion*/
@@ -966,7 +966,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'Every Month on the First Sunday, Saturday for the entire day until December 31, 2024',
-			$this->service->generateWhenStringRecurring($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test relative entire day event with every 2nd Month interval on the 1st Saturday, Sunday and no conclusion*/
@@ -977,7 +977,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'Every 2 Months on the First Sunday, Saturday for the entire day',
-			$this->service->generateWhenStringRecurring($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test relative entire day event with every 2nd Month interval on the 1st Saturday, Sunday and conclusion*/
@@ -988,7 +988,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'Every 2 Months on the First Sunday, Saturday for the entire day until December 31, 2024',
-			$this->service->generateWhenStringRecurring($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 	}
@@ -1037,7 +1037,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'Every Year in July on the 1st between 8:00 AM - 9:00 AM (America/Toronto)',
-			$this->service->generateWhenStringRecurring($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test absolute partial day event with every year interval on July 1 and conclusion*/
@@ -1048,7 +1048,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'Every Year in July on the 1st between 8:00 AM - 9:00 AM (America/Toronto) until July 31, 2026',
-			$this->service->generateWhenStringRecurring($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test absolute partial day event with every 2nd year interval on July 1 and no conclusion*/
@@ -1059,7 +1059,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'Every 2 Years in July on the 1st between 8:00 AM - 9:00 AM (America/Toronto)',
-			$this->service->generateWhenStringRecurring($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test absolute partial day event with every 2nd year interval on July 1 and conclusion*/
@@ -1070,7 +1070,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'Every 2 Years in July on the 1st between 8:00 AM - 9:00 AM (America/Toronto) until July 31, 2026',
-			$this->service->generateWhenStringRecurring($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test absolute entire day event with every year interval on July 1 and no conclusion*/
@@ -1081,7 +1081,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'Every Year in July on the 1st for the entire day',
-			$this->service->generateWhenStringRecurring($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test absolute entire day event with every year interval on July 1 and conclusion*/
@@ -1092,7 +1092,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'Every Year in July on the 1st for the entire day until July 31, 2026',
-			$this->service->generateWhenStringRecurring($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test absolute entire day event with every 2nd year interval on July 1 and no conclusion*/
@@ -1103,7 +1103,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'Every 2 Years in July on the 1st for the entire day',
-			$this->service->generateWhenStringRecurring($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test absolute entire day event with every 2nd year interval on July 1 and conclusion*/
@@ -1114,7 +1114,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'Every 2 Years in July on the 1st for the entire day until July 31, 2026',
-			$this->service->generateWhenStringRecurring($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test relative partial day event with every year interval on the 1st Saturday, Sunday in July and no conclusion*/
@@ -1125,7 +1125,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'Every Year in July on the First Sunday, Saturday between 8:00 AM - 9:00 AM (America/Toronto)',
-			$this->service->generateWhenStringRecurring($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test relative partial day event with every year interval on the 1st Saturday, Sunday in July and conclusion*/
@@ -1136,7 +1136,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'Every Year in July on the First Sunday, Saturday between 8:00 AM - 9:00 AM (America/Toronto) until July 31, 2026',
-			$this->service->generateWhenStringRecurring($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test relative partial day event with every 2nd year interval on the 1st Saturday, Sunday in July and no conclusion*/
@@ -1147,7 +1147,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'Every 2 Years in July on the First Sunday, Saturday between 8:00 AM - 9:00 AM (America/Toronto)',
-			$this->service->generateWhenStringRecurring($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test relative partial day event with every 2nd year interval on the 1st Saturday, Sunday in July and conclusion*/
@@ -1158,7 +1158,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'Every 2 Years in July on the First Sunday, Saturday between 8:00 AM - 9:00 AM (America/Toronto) until July 31, 2026',
-			$this->service->generateWhenStringRecurring($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test relative entire day event with every year interval on the 1st Saturday, Sunday in July and no conclusion*/
@@ -1169,7 +1169,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'Every Year in July on the First Sunday, Saturday for the entire day',
-			$this->service->generateWhenStringRecurring($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test relative entire day event with every year interval on the 1st Saturday, Sunday in July and conclusion*/
@@ -1180,7 +1180,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'Every Year in July on the First Sunday, Saturday for the entire day until July 31, 2026',
-			$this->service->generateWhenStringRecurring($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test relative entire day event with every 2nd year interval on the 1st Saturday, Sunday in July and no conclusion*/
@@ -1191,7 +1191,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'Every 2 Years in July on the First Sunday, Saturday for the entire day',
-			$this->service->generateWhenStringRecurring($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 		/** test relative entire day event with every 2nd year interval on the 1st Saturday, Sunday in July and conclusion*/
@@ -1202,7 +1202,7 @@ class IMipServiceTest extends TestCase {
 		// test output
 		$this->assertEquals(
 			'Every 2 Years in July on the First Sunday, Saturday for the entire day until July 31, 2026',
-			$this->service->generateWhenStringRecurring($eventReader)
+			$this->service->generateWhenString($eventReader)
 		);
 
 	}

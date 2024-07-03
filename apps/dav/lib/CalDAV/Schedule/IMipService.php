@@ -141,7 +141,7 @@ class IMipService {
 		$eventReaderPrevious = !empty($oldVEvent) ? new EventReader($oldVEvent) : null;
 		$defaultVal = '';
 		$data = [];
-		$data['meeting_when'] = $eventReaderCurrent->recurs() ? $this->generateWhenStringRecurring($eventReaderCurrent) : $this->generateWhenStringSingular($eventReaderCurrent);
+		$data['meeting_when'] = $this->generateWhenString($eventReaderCurrent);
 
 		foreach(self::STRING_DIFF as $key => $property) {
 			$data[$key] = self::readPropertyWithDefault($vEvent, $property, $defaultVal);
@@ -154,7 +154,7 @@ class IMipService {
 		}
 
 		if(!empty($oldVEvent)) {
-			$oldMeetingWhen = $eventReaderPrevious->recurs() ? $this->generateWhenStringRecurring($eventReaderPrevious) : $this->generateWhenStringSingular($eventReaderPrevious);
+			$oldMeetingWhen = $this->generateWhenString($eventReaderPrevious);
 			$data['meeting_title_html'] = $this->generateDiffString($vEvent, $oldVEvent, 'SUMMARY', $data['meeting_title']);
 			$data['meeting_description_html'] = $this->generateDiffString($vEvent, $oldVEvent, 'DESCRIPTION', $data['meeting_description']);
 			$data['meeting_location_html'] = $this->generateLinkifiedDiffString($vEvent, $oldVEvent, 'LOCATION', $data['meeting_location']);
@@ -176,6 +176,22 @@ class IMipService {
 	}
 
 	/**
+	 * genarates a when string based on if a event has an recurrence or not
+	 *
+	 * @since 30.0.0
+	 *
+	 * @param EventReader $er
+	 *
+	 * @return string
+	 */
+	public function generateWhenString(EventReader $er): string {
+		return match ($er->recurs()) {
+			true => $this->generateWhenStringRecurring($er),
+			false => $this->generateWhenStringSingular($er)
+		};
+	}
+
+	/**
 	 * genarates a when string for a non recurring event
 	 *
 	 * @since 30.0.0
@@ -191,7 +207,8 @@ class IMipService {
 		$startDate = $this->l10n->l('date', $er->startDateTime(), ['width' => 'full']);
 		// time of the day
 		if (!$er->entireDay()) {
-			$startTime = $this->l10n->l('time', $er->startDateTime(), ['width' => 'short']) . (($er->startTimeZone() != $er->endTimeZone()) ? ' (' . $er->startTimeZone()->getName() . ')': '');
+			$startTime = $this->l10n->l('time', $er->startDateTime(), ['width' => 'short']);
+			$startTime .= $er->startTimeZone() != $er->endTimeZone() ? ' (' . $er->startTimeZone()->getName() . ')' : '';
 			$endTime = $this->l10n->l('time', $er->endDateTime(), ['width' => 'short']) . ' (' . $er->endTimeZone()->getName() . ')';
 		}
 		// generate localized when string
@@ -240,7 +257,8 @@ class IMipService {
 		$conclusion = '';
 		// time of the day
 		if (!$er->entireDay()) {
-			$startTime = $this->l10n->l('time', $er->startDateTime(), ['width' => 'short']) . (($er->startTimeZone() != $er->endTimeZone()) ? ' (' . $er->startTimeZone()->getName() . ')': '');
+			$startTime = $this->l10n->l('time', $er->startDateTime(), ['width' => 'short']);
+			$startTime .= $er->startTimeZone() != $er->endTimeZone() ? ' (' . $er->startTimeZone()->getName() . ')' : '';
 			$endTime = $this->l10n->l('time', $er->endDateTime(), ['width' => 'short']) . ' (' . $er->endTimeZone()->getName() . ')';
 		}
 		// conclusion
@@ -279,10 +297,11 @@ class IMipService {
 		$endTime = '';
 		$conclusion = '';
 		// days of the week
-		$days = implode(', ', array_map(function ($value) { return $this->l10n->t($value); }, $er->recurringDaysOfWeekNamed()));
+		$days = implode(', ', array_map(function ($value) { return $this->localizeDayName($value); }, $er->recurringDaysOfWeekNamed()));
 		// time of the day
 		if (!$er->entireDay()) {
-			$startTime = $this->l10n->l('time', $er->startDateTime(), ['width' => 'short']) . (($er->startTimeZone() != $er->endTimeZone()) ? ' (' . $er->startTimeZone()->getName() . ')': '');
+			$startTime = $this->l10n->l('time', $er->startDateTime(), ['width' => 'short']);
+			$startTime .= $er->startTimeZone() != $er->endTimeZone() ? ' (' . $er->startTimeZone()->getName() . ')' : '';
 			$endTime = $this->l10n->l('time', $er->endDateTime(), ['width' => 'short']) . ' (' . $er->endTimeZone()->getName() . ')';
 		}
 		// conclusion
@@ -322,14 +341,15 @@ class IMipService {
 		$conclusion = '';
 		// days of month
 		if ($er->recurringPattern() === 'R') {
-			$days = implode(', ', array_map(function ($value) { return $this->l10n->t($value); }, $er->recurringRelativePositionNamed())) . ' ' .
-					implode(', ', array_map(function ($value) { return $this->l10n->t($value); }, $er->recurringDaysOfWeekNamed()));
+			$days = implode(', ', array_map(function ($value) { return $this->localizeRelativePositionName($value); }, $er->recurringRelativePositionNamed())) . ' ' .
+					implode(', ', array_map(function ($value) { return $this->localizeDayName($value); }, $er->recurringDaysOfWeekNamed()));
 		} else {
 			$days = implode(', ', $er->recurringDaysOfMonth());
 		}
 		// time of the day
 		if (!$er->entireDay()) {
-			$startTime = $this->l10n->l('time', $er->startDateTime(), ['width' => 'short']) . (($er->startTimeZone() != $er->endTimeZone()) ? ' (' . $er->startTimeZone()->getName() . ')': '');
+			$startTime = $this->l10n->l('time', $er->startDateTime(), ['width' => 'short']);
+			$startTime .= $er->startTimeZone() != $er->endTimeZone() ? ' (' . $er->startTimeZone()->getName() . ')' : '';
 			$endTime = $this->l10n->l('time', $er->endDateTime(), ['width' => 'short']) . ' (' . $er->endTimeZone()->getName() . ')';
 		}
 		// conclusion
@@ -367,17 +387,18 @@ class IMipService {
 		$endTime = '';
 		$conclusion = '';
 		// months of year
-		$months = implode(', ', array_map(function ($value) { return $this->l10n->t($value); }, $er->recurringMonthsOfYearNamed()));
+		$months = implode(', ', array_map(function ($value) { return $this->localizeMonthName($value); }, $er->recurringMonthsOfYearNamed()));
 		// days of month
 		if ($er->recurringPattern() === 'R') {
-			$days = implode(', ', array_map(function ($value) { return $this->l10n->t($value); }, $er->recurringRelativePositionNamed())) . ' ' .
-					implode(', ', array_map(function ($value) { return $this->l10n->t($value); }, $er->recurringDaysOfWeekNamed()));
+			$days = implode(', ', array_map(function ($value) { return $this->localizeRelativePositionName($value); }, $er->recurringRelativePositionNamed())) . ' ' .
+					implode(', ', array_map(function ($value) { return $this->localizeDayName($value); }, $er->recurringDaysOfWeekNamed()));
 		} else {
 			$days = $er->startDateTime()->format('jS');
 		}
 		// time of the day
 		if (!$er->entireDay()) {
-			$startTime = $this->l10n->l('time', $er->startDateTime(), ['width' => 'short']) . (($er->startTimeZone() != $er->endTimeZone()) ? ' (' . $er->startTimeZone()->getName() . ')': '');
+			$startTime = $this->l10n->l('time', $er->startDateTime(), ['width' => 'short']);
+			$startTime .= $er->startTimeZone() != $er->endTimeZone() ? ' (' . $er->startTimeZone()->getName() . ')' : '';
 			$endTime = $this->l10n->l('time', $er->endDateTime(), ['width' => 'short']) . ' (' . $er->endTimeZone()->getName() . ')';
 		}
 		// conclusion
@@ -454,7 +475,7 @@ class IMipService {
 		$defaultVal = '';
 		$strikethrough = "<span style='text-decoration: line-through'>%s</span>";
 
-		$newMeetingWhen = $eventReaderCurrent->recurs() ? $this->generateWhenStringRecurring($eventReaderCurrent) : $this->generateWhenStringSingular($eventReaderCurrent);
+		$newMeetingWhen = $this->generateWhenString($eventReaderCurrent);
 		$newSummary = isset($vEvent->SUMMARY) && (string)$vEvent->SUMMARY !== '' ? (string)$vEvent->SUMMARY : $this->l10n->t('Untitled event');
 		$newDescription = isset($vEvent->DESCRIPTION) && (string)$vEvent->DESCRIPTION !== '' ? (string)$vEvent->DESCRIPTION : $defaultVal;
 		$newUrl = isset($vEvent->URL) && (string)$vEvent->URL !== '' ? sprintf('<a href="%1$s">%1$s</a>', $vEvent->URL) : $defaultVal;
@@ -897,4 +918,68 @@ class IMipService {
 		return [$interval, $scale];
 	}
 
+	/**
+	 * Localizes week day names to another language
+	 *
+	 * @param string $value
+	 *
+	 * @return string
+	 */
+	public function localizeDayName(string $value): string {
+		return match ($value) {
+			'Monday' => $this->l10n->t('Monday'),
+			'Tuesday' => $this->l10n->t('Tuesday'),
+			'Wednesday' => $this->l10n->t('Wednesday'),
+			'Thursday' => $this->l10n->t('Thursday'),
+			'Friday' => $this->l10n->t('Friday'),
+			'Saturday' => $this->l10n->t('Saturday'),
+			'Sunday' => $this->l10n->t('Sunday')
+		};
+	}
+
+	/**
+	 * Localizes month names to another language
+	 *
+	 * @param string $value
+	 *
+	 * @return string
+	 */
+	public function localizeMonthName(string $value): string {
+		return match ($value) {
+			'January' => $this->l10n->t('January'),
+			'February' => $this->l10n->t('February'),
+			'March' => $this->l10n->t('March'),
+			'April' => $this->l10n->t('April'),
+			'May' => $this->l10n->t('May'),
+			'June' => $this->l10n->t('June'),
+			'July' => $this->l10n->t('July'),
+			'August' => $this->l10n->t('August'),
+			'September' => $this->l10n->t('September'),
+			'October' => $this->l10n->t('October'),
+			'November' => $this->l10n->t('November'),
+			'December' => $this->l10n->t('December')
+		};
+	}
+
+	/**
+	 * Localizes relative position names to another language
+	 *
+	 * @param string $value
+	 *
+	 * @return string
+	 */
+	public function localizeRelativePositionName(string $value): string {
+		return match ($value) {
+			'First' => $this->l10n->t('First'),
+			'Second' => $this->l10n->t('Second'),
+			'Third' => $this->l10n->t('Third'),
+			'Fourth' => $this->l10n->t('Fourth'),
+			'Fifty' => $this->l10n->t('Fifty'),
+			'Last' => $this->l10n->t('Last'),
+			'Second Last' => $this->l10n->t('Second Last'),
+			'Third Last' => $this->l10n->t('Third Last'),
+			'Fourth Last' => $this->l10n->t('Fourth Last'),
+			'Fifty Last' => $this->l10n->t('Fifty Last')
+		};
+	}
 }

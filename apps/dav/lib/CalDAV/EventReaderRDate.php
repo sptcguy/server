@@ -25,9 +25,9 @@ class EventReaderRDate extends \Sabre\VObject\Recur\RDateIterator {
 				$this->dates[array_key_last($this->dates)],
 				$this->startDate->getTimezone()
 			);
-		} else {
-			return null;
 		}
+
+		return null;
 	}
 
 }
