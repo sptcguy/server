@@ -87,9 +87,7 @@ class Cache implements ICache {
 
 	protected function getQueryBuilder() {
 		return new CacheQueryBuilder(
-			$this->connection,
-			$this->systemConfig,
-			$this->logger,
+			$this->connection->getQueryBuilder(),
 			$this->metadataManager,
 		);
 	}
@@ -671,6 +669,7 @@ class Cache implements ICache {
 
 				$childChunks = array_chunk($childIds, 1000);
 
+				// todo: handle cross shard move
 				$query = $this->connection->getQueryBuilder();
 
 				$fun = $query->func();

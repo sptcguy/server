@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 namespace OC\Files\Cache;
 
+use OC\DB\QueryBuilder\ExtendedQueryBuilder;
 use OC\DB\QueryBuilder\QueryBuilder;
 use OC\SystemConfig;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -19,16 +20,14 @@ use Psr\Log\LoggerInterface;
 /**
  * Query builder with commonly used helpers for filecache queries
  */
-class CacheQueryBuilder extends QueryBuilder {
+class CacheQueryBuilder extends ExtendedQueryBuilder {
 	private ?string $alias = null;
 
 	public function __construct(
-		IDBConnection $connection,
-		SystemConfig $systemConfig,
-		LoggerInterface $logger,
+		IQueryBuilder $queryBuilder,
 		private IFilesMetadataManager $filesMetadataManager,
 	) {
-		parent::__construct($connection, $systemConfig, $logger);
+		parent::__construct($queryBuilder);
 	}
 
 	public function selectTagUsage(): self {

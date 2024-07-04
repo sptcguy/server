@@ -983,9 +983,7 @@ class Trashbin {
 		// Manually fetch all versions from the file cache to be able to filter them by their parent
 		$cache = $storage->getCache('');
 		$query = new CacheQueryBuilder(
-			\OC::$server->getDatabaseConnection(),
-			\OC::$server->getSystemConfig(),
-			\OC::$server->get(LoggerInterface::class),
+			\OC::$server->getDatabaseConnection()->getQueryBuilder(),
 			\OC::$server->get(IFilesMetadataManager::class),
 		);
 		$normalizedParentPath = ltrim(Filesystem::normalizePath(dirname('files_trashbin/versions/'. $filename)), '/');
