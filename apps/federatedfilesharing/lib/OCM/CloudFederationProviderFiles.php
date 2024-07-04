@@ -212,7 +212,6 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 				return $this->updateResharePermissions($providerId, $notification);
 		}
 
-
 		throw new BadRequestException([$notificationType]);
 	}
 
