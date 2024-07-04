@@ -33,7 +33,7 @@ jobs:
       - name: Pull images
         run: |
           docker pull icewind1991/samba-krb-test-dc
-          docker pull icewind1991/samba-krb-test-apache
+          docker pull icewind1991/samba-krb-test-apache:${{ matrix.php-versions }}
           docker pull icewind1991/samba-krb-test-client
       - name: Setup AD-DC
         run: |
