@@ -47,7 +47,7 @@ export default {
 			const share = {
 				attributes: [
 					{
-						enabled: true,
+						value: true,
 						key: 'download',
 						scope: 'permissions',
 					},
