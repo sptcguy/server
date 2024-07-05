@@ -92,7 +92,7 @@ class EventReader {
 				throw new InvalidArgumentException('This VCALENDAR did not have an event with UID: '.$uid);
 			}
 			// extract calendar timezone
-			if (isset($input->VTIMEZONE->TZID)) {
+			if (isset($input->VTIMEZONE) && isset($input->VTIMEZONE->TZID)) {
 				$calendarTimeZone = new DateTimeZone($input->VTIMEZONE->TZID->getValue());
 			}
 		}

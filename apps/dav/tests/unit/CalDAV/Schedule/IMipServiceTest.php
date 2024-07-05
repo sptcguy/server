@@ -1222,7 +1222,6 @@ class IMipServiceTest extends TestCase {
 		$this->l10n->method('t')->willReturnMap([
 			['On specific dates for the entire day until %1$s', ['July 13, 2024'], 'On specific dates for the entire day until July 13, 2024'],
 			['On specific dates between %1$s - %2$s until %3$s', ['8:00 AM', '9:00 AM (America/Toronto)', 'July 13, 2024'], 'On specific dates between 8:00 AM - 9:00 AM (America/Toronto) until July 13, 2024'],
-			['Could not generate event recurrence statement', [], 'Could not generate event recurrence statement'],
 		]);
 
 		/** test partial day event with every day interval and conclusion*/

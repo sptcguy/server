@@ -443,7 +443,6 @@ class IMipService {
 		return match (!empty($startTime)) {
 			false => $this->l10n->t('On specific dates for the entire day until %1$s', [$conclusion]),
 			true => $this->l10n->t('On specific dates between %1$s - %2$s until %3$s', [$startTime, $endTime, $conclusion]),
-			default => $this->l10n->t('Could not generate event recurrence statement')
 		};
 	}
 	
