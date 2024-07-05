@@ -283,15 +283,15 @@ class Connection extends PrimaryReadReplicaConnection {
 		} else {
 			// Read to a table that has been written to previously
 			// While this might not necessarily mean that we did a read after write it is an indication for a code path to check
-			$this->logger->log(
-				(int) ($this->systemConfig->getValue('loglevel_dirty_database_queries', null) ?? 0),
-				'dirty table reads: ' . $sql,
-				[
-					'tables' => array_keys($this->tableDirtyWrites),
-					'reads' => $tables,
-					'exception' => new \Exception('dirty table reads: ' . $sql),
-				],
-			);
+			// $this->logger->log(
+			// 	(int) ($this->systemConfig->getValue('loglevel_dirty_database_queries', null) ?? 0),
+			// 	'dirty table reads: ' . $sql,
+			// 	[
+			// 		'tables' => array_keys($this->tableDirtyWrites),
+			// 		'reads' => $tables,
+			// 		'exception' => new \Exception('dirty table reads: ' . $sql),
+			// 	],
+			// );
 			// To prevent a dirty read on a replica that is slightly out of sync, we
 			// switch back to the primary. This is detrimental for performance but
 			// safer for consistency.

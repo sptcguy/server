@@ -177,7 +177,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return IResult|int
 	 */
 	public function execute() {
-		if ($this->systemConfig->getValue('log_query', false)) {
+		if (false) {
 			try {
 				$params = [];
 				foreach ($this->getParameters() as $placeholder => $value) {
