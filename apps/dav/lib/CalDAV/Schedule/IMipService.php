@@ -233,6 +233,7 @@ class IMipService {
 			'weekly' => $this->generateWhenStringRecurringWeekly($er),
 			'monthly' => $this->generateWhenStringRecurringMonthly($er),
 			'yearly' => $this->generateWhenStringRecurringYearly($er),
+			'fixed' => $this->generateWhenStringRecurringFixed($er),
 		};
 	}
 
@@ -412,6 +413,36 @@ class IMipService {
 			[true, false, true] => $this->l10n->t('Every %1$d Years in %2$s on the %3$s for the entire day until %4$s', [$interval, $months,  $days, $conclusion]),
 			[true, true, false] => $this->l10n->t('Every %1$d Years in %2$s on the %3$s between %4$s - %5$s', [$interval, $months, $days, $startTime, $endTime]),
 			[true, true, true] => $this->l10n->t('Every %1$d Years in %2$s on the %3$s between %4$s - %5$s until %6$s', [$interval, $months, $days, $startTime, $endTime, $conclusion]),
+			default => $this->l10n->t('Could not generate event recurrence statement')
+		};
+	}
+
+	/**
+	 * genarates a when string for a fixed precision/frequency
+	 *
+	 * @since 30.0.0
+	 *
+	 * @param EventReader $er
+	 *
+	 * @return string
+	 */
+	public function generateWhenStringRecurringFixed(EventReader $er): string {
+		// initialize
+		$startTime = '';
+		$endTime = '';
+		$conclusion = '';
+		// time of the day
+		if (!$er->entireDay()) {
+			$startTime = $this->l10n->l('time', $er->startDateTime(), ['width' => 'short']);
+			$startTime .= $er->startTimeZone() != $er->endTimeZone() ? ' (' . $er->startTimeZone()->getName() . ')' : '';
+			$endTime = $this->l10n->l('time', $er->endDateTime(), ['width' => 'short']) . ' (' . $er->endTimeZone()->getName() . ')';
+		}
+		// conclusion
+		$conclusion = $this->l10n->l('date', $er->recurringConcludesOn(), ['width' => 'long']);
+		// generate localized when string
+		return match (!empty($startTime)) {
+			false => $this->l10n->t('On specific dates for the entire day until %1$s', [$conclusion]),
+			true => $this->l10n->t('On specific dates between %1$s - %2$s until %3$s', [$startTime, $endTime, $conclusion]),
 			default => $this->l10n->t('Could not generate event recurrence statement')
 		};
 	}
@@ -930,7 +961,7 @@ class IMipService {
 			'Thursday' => $this->l10n->t('Thursday'),
 			'Friday' => $this->l10n->t('Friday'),
 			'Saturday' => $this->l10n->t('Saturday'),
-			'Sunday' => $this->l10n->t('Sunday')
+			'Sunday' => $this->l10n->t('Sunday'),
 		};
 	}
 
@@ -954,7 +985,7 @@ class IMipService {
 			'September' => $this->l10n->t('September'),
 			'October' => $this->l10n->t('October'),
 			'November' => $this->l10n->t('November'),
-			'December' => $this->l10n->t('December')
+			'December' => $this->l10n->t('December'),
 		};
 	}
 
@@ -976,7 +1007,7 @@ class IMipService {
 			'Second Last' => $this->l10n->t('Second Last'),
 			'Third Last' => $this->l10n->t('Third Last'),
 			'Fourth Last' => $this->l10n->t('Fourth Last'),
-			'Fifty Last' => $this->l10n->t('Fifty Last')
+			'Fifty Last' => $this->l10n->t('Fifty Last'),
 		};
 	}
 }

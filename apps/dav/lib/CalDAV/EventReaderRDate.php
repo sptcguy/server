@@ -9,9 +9,11 @@ declare(strict_types=1);
 
 namespace OCA\DAV\CalDAV;
 
+use DateTime;
+
 class EventReaderRDate extends \Sabre\VObject\Recur\RDateIterator {
 
-	public function concludes(): \DateTime | null {
+	public function concludes(): DateTime | null {
 		return $this->concludesOn();
 	}
 
@@ -19,9 +21,9 @@ class EventReaderRDate extends \Sabre\VObject\Recur\RDateIterator {
 		return !empty($this->dates) ? count($this->dates) : null;
 	}
 
-	public function concludesOn(): \DateTime | null {
+	public function concludesOn(): DateTime | null {
 		if (count($this->dates) > 0) {
-			return new \DateTime(
+			return new DateTime(
 				$this->dates[array_key_last($this->dates)],
 				$this->startDate->getTimezone()
 			);

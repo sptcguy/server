@@ -9,6 +9,9 @@ declare(strict_types=1);
 
 namespace OCA\DAV\CalDAV;
 
+use DateTime;
+use DateTimeInterface;
+
 class EventReaderRRule extends \Sabre\VObject\Recur\RRuleIterator {
 
 	public function precision(): string {
@@ -19,10 +22,13 @@ class EventReaderRRule extends \Sabre\VObject\Recur\RRuleIterator {
 		return $this->interval;
 	}
 
-	public function concludes(): \DateTime | null {
-		if ($this->until instanceof \DateTimeInterface) {
-			return \DateTime::createFromInterface($this->until);
-		} elseif ($this->count > 0) {
+	public function concludes(): DateTime | null {
+		// evaluate if until value is a date
+		if ($this->until instanceof DateTimeInterface) {
+			return DateTime::createFromInterface($this->until);
+		}
+		// evaluate if count value is higher than 0
+		if ($this->count > 0) {
 			// temporarily store current recurrence date and counter
 			$currentReccuranceDate = $this->currentDate;
 			$currentCounter = $this->counter;
@@ -36,18 +42,18 @@ class EventReaderRRule extends \Sabre\VObject\Recur\RRuleIterator {
 			$this->currentDate = $currentReccuranceDate;
 			$this->counter = $currentCounter;
 			// return last recurrence date
-			return \DateTime::createFromInterface($lastReccuranceDate);
-		} else {
-			return null;
+			return DateTime::createFromInterface($lastReccuranceDate);
 		}
+
+		return null;
 	}
 
 	public function concludesAfter(): int | null {
 		return !empty($this->count) ? $this->count : null;
 	}
 
-	public function concludesOn(): \DateTime | null {
-		return isset($this->until) ? \DateTime::createFromImmutable($this->until) : null;
+	public function concludesOn(): DateTime | null {
+		return isset($this->until) ? DateTime::createFromInterface($this->until) : null;
 	}
 
 	public function daysOfWeek(): array {

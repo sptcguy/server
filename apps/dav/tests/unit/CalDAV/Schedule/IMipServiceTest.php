@@ -1207,6 +1207,48 @@ class IMipServiceTest extends TestCase {
 
 	}
 
+	public function testGenerateWhenStringRecurringFixed(): void {
+		
+		// construct l10n return maps
+		$this->l10n->method('l')->willReturnCallback(
+			function ($v1, $v2, $v3) {
+				return match (true) {
+					$v1 === 'time' && $v2 == (new \DateTime('20240701T080000', (new \DateTimeZone('America/Toronto')))) && $v3 == ['width' => 'short'] => '8:00 AM',
+					$v1 === 'time' && $v2 == (new \DateTime('20240701T090000', (new \DateTimeZone('America/Toronto')))) && $v3 == ['width' => 'short'] => '9:00 AM',
+					$v1 === 'date' && $v2 == (new \DateTime('20240713T080000', (new \DateTimeZone('America/Toronto')))) && $v3 == ['width' => 'long'] => 'July 13, 2024'
+				};
+			}
+		);
+		$this->l10n->method('t')->willReturnMap([
+			['On specific dates for the entire day until %1$s', ['July 13, 2024'], 'On specific dates for the entire day until July 13, 2024'],
+			['On specific dates between %1$s - %2$s until %3$s', ['8:00 AM', '9:00 AM (America/Toronto)', 'July 13, 2024'], 'On specific dates between 8:00 AM - 9:00 AM (America/Toronto) until July 13, 2024'],
+			['Could not generate event recurrence statement', [], 'Could not generate event recurrence statement'],
+		]);
+
+		/** test partial day event with every day interval and conclusion*/
+		$vCalendar = clone $this->vCalendar1a;
+		$vCalendar->VEVENT[0]->add('RDATE', '20240703T080000,20240709T080000,20240713T080000');
+		// construct event reader
+		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
+		// test output
+		$this->assertEquals(
+			'On specific dates between 8:00 AM - 9:00 AM (America/Toronto) until July 13, 2024',
+			$this->service->generateWhenString($eventReader)
+		);
+
+		/** test entire day event with every day interval and no conclusion*/
+		$vCalendar = clone $this->vCalendar2;
+		$vCalendar->VEVENT[0]->add('RDATE', '20240703T080000,20240709T080000,20240713T080000');
+		// construct event reader
+		$eventReader = new EventReader($vCalendar, $vCalendar->VEVENT[0]->UID->getValue());
+		// test output
+		$this->assertEquals(
+			'On specific dates for the entire day until July 13, 2024',
+			$this->service->generateWhenString($eventReader)
+		);
+
+	}
+
 	public function testGenerateOccurringString(): void {
 		
 		// construct l10n return(s)
