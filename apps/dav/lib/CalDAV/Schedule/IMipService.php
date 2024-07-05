@@ -162,7 +162,7 @@ class IMipService {
 			$oldUrl = self::readPropertyWithDefault($oldVEvent, 'URL', $defaultVal);
 			$data['meeting_url_html'] = !empty($oldUrl) && $oldUrl !== $data['meeting_url'] ? sprintf('<a href="%1$s">%1$s</a>', $oldUrl) : $data['meeting_url'];
 
-			$data['meeting_when_html'] = sprintf("<span style='text-decoration: line-through'>%s</span><br />%s", $oldMeetingWhen, $data['meeting_when']);
+			$data['meeting_when_html'] = $oldMeetingWhen !== $data['meeting_when'] ? sprintf("<span style='text-decoration: line-through'>%s</span><br />%s", $oldMeetingWhen, $data['meeting_when']) : $data['meeting_when'];
 		}
 		// generate occuring next string
 		if ($eventReaderCurrent->recurs()) {

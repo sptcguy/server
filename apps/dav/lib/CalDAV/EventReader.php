@@ -14,9 +14,9 @@ use DateTimeInterface;
 use DateTimeZone;
 use InvalidArgumentException;
 
-use Sabre\VObject\Reader;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VEvent;
+use Sabre\VObject\Reader;
 
 class EventReader {
 
