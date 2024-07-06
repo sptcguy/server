@@ -39,7 +39,7 @@ class CardDavValidatePluginTest extends TestCase {
 		
 		// construct method responses
 		$this->config
-			->method('getAppValue')
+			->method('getValue')
 			->with('dav', 'card_size_limit', '5242880')
 			->willReturn('5242880');
 		$this->request

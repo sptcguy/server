@@ -29,7 +29,7 @@ class CardDavValidatePlugin extends ServerPlugin {
 
 	public function beforePut(RequestInterface $request, ResponseInterface $response): bool {
 		// evaluate if card size exceeds defined limit
-		$cardSizeLimit = (int) $this->config->getAppValue(Application::APP_ID, 'card_size_limit', '5242880');
+		$cardSizeLimit = (int) $this->config->getValue(Application::APP_ID, 'card_size_limit', '5242880');
 		if ((int) $request->getRawServerValue('CONTENT_LENGTH') > $cardSizeLimit) {
 			throw new Forbidden("VCard object exceeds $cardSizeLimit bytes");
 		}
