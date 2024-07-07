@@ -510,3 +510,18 @@ window.addEventListener('DOMContentLoaded', function () {
 	}
 
 });
+
+window.addEventListener('load', function () {
+
+        console.log('Page is fully loaded, resize #preview if the video is portrait aspect ratio');
+
+        const preview = document.getElementById('preview');
+
+        if(preview.clientHeight > preview.clientWidth){
+
+                preview.style.maxWidth = '50vh';
+                preview.style.margin = '0 auto';
+
+        }
+
+});
